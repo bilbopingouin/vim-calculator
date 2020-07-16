@@ -52,6 +52,8 @@ command! -nargs=0 Calculate :call calculator#DoCalculate()
 
 command! -nargs=0 CalcStop  :q
 
+command! -nargs=+ Calc      :execute ":echo ".<f-args>
+
 
 """""""""""""""""""""""""""""""""
 " Maps
