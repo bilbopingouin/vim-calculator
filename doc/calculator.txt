@@ -1,0 +1,78 @@
+calculator.txt*	  The calculator utility			Dec 07, 2020
+
+Authors:  bilbo pingouin  <bilbopingouin@gmail.com>
+
+Copyright:    See the LICENSE.md attached to the plugin
+
+
+==============================================================================
+1. Contents						*calculator-contents*
+
+	1. Contents......................: |calculator-contents|
+	2. Introduction..................: |calculator-intro|
+	3. Usage.........................: |calculator-usage|
+	  3.1 Calculations...............: |calculator-calculations|
+	     Inline......................: |calculator-inline|
+	     Environment.................: |calculator-envirnment|
+	  3.2 Conversions................: |calculator-conversions|
+
+
+==============================================================================
+2. Introduction						*calculator-intro*
+
+Wrappers functions for the expression register of vim.
+
+There are two types of commands, calculation and conversions.
+
+==============================================================================
+3. Usage						*calculator-usage*
+
+3.1. Calculations					*calculator-calculations*
+
+There are two modes to use the calculations functions: |calculator-environment| 
+and |calculator-inline|
+
+Inline function						*calculator-inline*
+
+							*:Calc*
+:Calc {arg}		Calculate the result of the operation in {arg}. For example >
+				:Calc 1+1
+
+Environment						*calculator-environment*
+
+							*:CalcStart*
+:CalcStart		Starts the calculation environment. It opens a split buffer
+			where the operations can be entered.
+
+							*:CalcStop*
+:CalcStop		Stops the calculation environement.
+
+							*:Calculate*
+:Calculate		Runs the line through the expression register and prints the 
+			result in the following line.
+
+							*C_g* *CTRL-g*
+<C-g>			Like |:Calculate| but in insert mode.
+
+3.2. Conversions					*calculator-conversions*
+
+							*:Convert*
+:Conv[ert] [func] {value} [opt]	Convert the {value} according to the function [func]. 
+				The following functions are currently available:
+				- `uDH`: converts an unsigned decimal to hexadecimal.
+				- `sDH`: converts a signed decimal to hexadecimal.
+				- `uHD`: converts an unsigned hexadecimal to decimal.
+				- `sHD`: converts a signed hexadecimal to decimal.
+				If the function is omitted, `uDH` is selected.
+
+				Some functions can take an optional argument [opt].
+				In particular, `uDH`, `sDH` and `sHD` can specify the
+				number of bits for the hexadecimal.
+
+				Example >
+					:Conv uDH 42 16
+				Converts the unsigned decimal 42 into a 16-bits 
+				hexadecimal.
+
+ ---------------------------------------------------------------------
+ vim:tw=81:ts=8:noet:ft=help:norl:
