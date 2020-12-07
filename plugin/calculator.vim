@@ -28,23 +28,21 @@ function! s:CreateSwap()
 " Perform the calculation
 """""""""""""""""""""""""""""""""
 function calculator#DoCalculate()
-  if exists('b:calculatorActive')
-    :let l:operation = getline('.')
+  :let l:operation = getline('.')
 
-    if match(l:operation, 'ans') != -1
-      echo 'Using ans'
-      if s:ans == ''
-        :let s:ans = '(0.0/0.0)'
-      endif
-      :let l:operation = substitute(l:operation, 'ans', s:ans, 'g')
+  if match(l:operation, 'ans') != -1
+    echo 'Using ans'
+    if s:ans == ''
+      :let s:ans = '(0.0/0.0)'
     endif
-
-    :execute ":put =".l:operation
-    :execute "let s:ans=".l:operation
-
-    :normal o
-    :startinsert
+    :let l:operation = substitute(l:operation, 'ans', s:ans, 'g')
   endif
+
+  :execute ":put =".l:operation
+  :execute "let s:ans=".l:operation
+
+  :normal o
+  :startinsert
 endfunction
 
 
@@ -53,7 +51,12 @@ endfunction
 """""""""""""""""""""""""""""""""
 function calculator#Calculator()
   :call s:CreateSwap()
-  :let b:calculatorActive = 1
+
+  " Commands specific for the buffer
+  :command -buffer -nargs=0 CalcStop  :q
+  :command -buffer -nargs=0 Calculate :call calculator#DoCalculate()
+  :imap <buffer> <C-g>  <ESC>:Calculate<CR>
+
 endfunction
 
 
@@ -63,18 +66,7 @@ endfunction
 
 command! -nargs=0 CalcStart :call calculator#Calculator()
 
-command! -nargs=0 CalcStop  :q
-
-command! -nargs=0 Calculate :call calculator#DoCalculate()
-
 command! -nargs=+ Calc      :execute ":echo ".<f-args>
-
-
-"""""""""""""""""""""""""""""""""
-" Maps
-"""""""""""""""""""""""""""""""""
-
-:imap <C-g>  <ESC>:Calculate<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                         CONVERSIONS
