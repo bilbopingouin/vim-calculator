@@ -2,7 +2,7 @@
 " calculator.vim
 "
 " author: bilbo pingouin
-" date: 2020.07.09
+" date: 2020.12.07
 "
 """
 
@@ -10,11 +10,12 @@
 " Create a new swap buffer
 """""""""""""""""""""""""""""""""
 function! s:CreateSwap()
-   :new
+   :4new
    :setlocal buftype=nofile
    :setlocal bufhidden=hide
    :setlocal noswapfile
    :setlocal nobuflisted
+   :startinsert
  endfunction
 
 
@@ -27,9 +28,23 @@ function! s:CreateSwap()
 " Perform the calculation
 """""""""""""""""""""""""""""""""
 function calculator#DoCalculate()
-  :let l:operation = getline('.')
-  :execute ":put =".l:operation
-  :normal o
+  if exists('b:calculatorActive')
+    :let l:operation = getline('.')
+
+    if match(l:operation, 'ans') != -1
+      echo 'Using ans'
+      if s:ans == ''
+        :let s:ans = '(0.0/0.0)'
+      endif
+      :let l:operation = substitute(l:operation, 'ans', s:ans, 'g')
+    endif
+
+    :execute ":put =".l:operation
+    :execute "let s:ans=".l:operation
+
+    :normal o
+    :startinsert
+  endif
 endfunction
 
 
@@ -38,6 +53,7 @@ endfunction
 """""""""""""""""""""""""""""""""
 function calculator#Calculator()
   :call s:CreateSwap()
+  :let b:calculatorActive = 1
 endfunction
 
 

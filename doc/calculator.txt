@@ -59,19 +59,19 @@ Environment						*calculator-environment*
 							*:Convert*
 :Conv[ert] [func] {value} [opt]	Convert the {value} according to the function [func]. 
 				The following functions are currently available:
-				- `uDH`: converts an unsigned decimal to hexadecimal.
-				- `sDH`: converts a signed decimal to hexadecimal.
-				- `uHD`: converts an unsigned hexadecimal to decimal.
-				- `sHD`: converts a signed hexadecimal to decimal.
-				If the function is omitted, `uDH` is selected.
+				- 'uDH': converts an unsigned decimal to hexadecimal.
+				- 'sDH': converts a signed decimal to hexadecimal.
+				- 'uHD': converts an unsigned hexadecimal to decimal.
+				- 'sHD': converts a signed hexadecimal to decimal.
+				If the function is omitted, 'uDH' is selected.
 
 				Some functions can take an optional argument [opt].
-				In particular, `uDH`, `sDH` and `sHD` can specify the
+				In particular, 'uDH', 'sDH' and 'sHD' can specify the
 				number of bits for the hexadecimal.
 
-				Example >
+				Example: >
 					:Conv uDH 42 16
-				Converts the unsigned decimal 42 into a 16-bits 
+<				Converts the unsigned decimal 42 into a 16-bits 
 				hexadecimal.
 
  ---------------------------------------------------------------------
