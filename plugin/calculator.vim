@@ -98,9 +98,9 @@ endfunction
 
 
 """""""""""""""""""""""""""""""""
-" Print result
+" Calculate the conversion
 """""""""""""""""""""""""""""""""
-function! calculator#EchoResult(value, fn, xtr)
+function! calculator#DoConvert(value, fn, xtr)
   ":echo 'Function: '.a:fn
   ":echo a:value
   " Initial: nan
@@ -147,7 +147,16 @@ function! calculator#EchoResult(value, fn, xtr)
 
   endif
 
-  :echo '= '.l:result
+  return l:result
+  #:echo '= '.l:result
+endfunction
+
+
+"""""""""""""""""""""""""""""""""
+" Print the result
+"""""""""""""""""""""""""""""""""
+function! calculator#EchoResult(value, fn, xtr)
+  :echo '= '.calculator#DoConvert(a:value, a:fn, a:xtr)
 endfunction
 
 
@@ -178,6 +187,69 @@ endfunction
 
 
 """""""""""""""""""""""""""""""""
+" Expression register
+"""""""""""""""""""""""""""""""""
+function! CHex2Dec(...)
+  :let l:function = 'signed'
+  :let l:value = '42'
+  :let l:options = '32'
+
+  if a:0 == 1
+    :let l:value = a:1
+  elseif a:0 == 2
+    :let l:value = a:1
+    :let l:options = a:2
+  elseif a:0 == 3
+    :let l:value = a:1
+    :let l:options = a:2
+    :let l:function = a:3
+  else
+    :echoerr 'Please use as :CHex2Dec("NN",["NBITS"],["signed|unsigned"])'
+    :return
+  endif
+
+  if l:function == 'signed'
+    :let l:function = 'sHD'
+  else
+    :let l:function = 'uHD'
+  endif
+
+  :let l:result = calculator#DoConvert(l:value, l:function, l:options)
+  :return string(l:result)
+endfunction
+
+function! CDec2Hex(...)
+  :let l:function = 'signed'
+  :let l:value = '42'
+  :let l:options = '32'
+
+  if a:0 == 1
+    :let l:value = a:1
+  elseif a:0 == 2
+    :let l:value = a:1
+    :let l:options = a:2
+  elseif a:0 == 3
+    :let l:value = a:1
+    :let l:options = a:2
+    :let l:function = a:3
+  else
+    :echoerr 'Please use as :CHex2Dec("NN",["NBITS"],["signed|unsigned"])'
+    :return
+  endif
+
+  if l:function == 'signed'
+    :let l:function = 'sDH'
+  else                    
+    :let l:function = 'uDH'
+  endif
+
+  :let l:result = calculator#DoConvert(l:value, l:function, l:options)
+  :return (l:result)
+endfunction
+
+"""""""""""""""""""""""""""""""""
 " Commands
 """""""""""""""""""""""""""""""""
 command! -nargs=+ Convert :call calculator#Convert(<f-args>)
+
+
